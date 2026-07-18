@@ -295,5 +295,6 @@ def test_deepcopy_timezone():
 def test_leading_dot_key():
     # Dotted keys that are only dots emptied levels and raised IndexError.
     for s in ('.=', '. = 1', '.=1', '.={}', '.=[]', '.=""'):
-        with pytest.raises(toml.TomlDecodeError):
+        with pytest.raises(toml.TomlDecodeError, match='Invalid key name'):
             toml.loads(s)
+    assert toml.loads('a.b = 1') == {'a': {'b': 1}}
