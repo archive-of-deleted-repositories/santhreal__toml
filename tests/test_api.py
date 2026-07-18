@@ -290,3 +290,10 @@ def test_deepcopy_timezone():
     o2 = copy.deepcopy(o)
     assert o2["dob"] == o["dob"]
     assert o2["dob"] is not o["dob"]
+
+
+def test_leading_dot_key():
+    # Dotted keys that are only dots emptied levels and raised IndexError.
+    for s in ('.=', '. = 1', '.=1', '.={}', '.=[]', '.=""'):
+        with pytest.raises(toml.TomlDecodeError):
+            toml.loads(s)

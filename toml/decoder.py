@@ -752,8 +752,10 @@ class TomlDecoder(object):
                     quoted = not quoted
             else:
                 levels = pair[0].split('.')
-            while levels[-1] == "":
+            while levels and levels[-1] == "":
                 levels = levels[:-1]
+            if not levels:
+                raise ValueError("Invalid key name")
             for level in levels[:-1]:
                 if level == "":
                     continue
